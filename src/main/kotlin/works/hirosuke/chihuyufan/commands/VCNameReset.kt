@@ -11,14 +11,5 @@ object VCNameReset: Command() {
     }
 
     override fun execute(event: CommandEvent) {
-        val channel = event.guild.voiceChannels.find { channel -> channel.members.contains(event.member) }
-
-        if (channel == null) {
-            event.reply("ボイスチャンネルに参加してから実行してください")
-            return
-        }
-
-        channel.manager.setName(TempDatas.vc[channel.idLong] ?: "null").queue()
-        event.reply("チャンネル名を変更しました")
     }
 }

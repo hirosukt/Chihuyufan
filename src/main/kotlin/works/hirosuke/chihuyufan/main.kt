@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag
 import net.dv8tion.jda.internal.entities.EmoteImpl
 import net.dv8tion.jda.internal.requests.Route
 import works.hirosuke.chihuyufan.commands.Neko
+import works.hirosuke.chihuyufan.commands.Poll
 import works.hirosuke.chihuyufan.commands.VCNameChange
 import works.hirosuke.chihuyufan.commands.VCNameReset
 
@@ -33,7 +34,7 @@ class Bot : ListenerAdapter() {
             .setServerInvite("discord.gg/gWTWVsqZB6")
             .build()
 
-        listOf(Neko, VCNameChange, VCNameReset).forEach { commandListener.addCommand(it) }
+        listOf(Neko, VCNameChange, VCNameReset, Poll).forEach { commandListener.addCommand(it) }
 
         bot = JDABuilder.createLight(token)
             .enableCache(mutableListOf(CacheFlag.VOICE_STATE))
@@ -45,6 +46,13 @@ class Bot : ListenerAdapter() {
 
     override fun onReady(event: ReadyEvent) {
         println("Bot has started.")
+    }
+
+    override fun onGuildVoiceLeave(event: GuildVoiceLeaveEvent) {
+
+        if (event.channelLeft.members.isNotEmpty()) return
+
+        event.channelLeft.manager.setName(TempDatas.vc[event.channelLeft.idLong] ?: "null").queue()
     }
 }
 
