@@ -11,7 +11,7 @@ object VCNameChange: Command() {
     }
 
     override fun execute(event: CommandEvent) {
-        val channel = event.guild.voiceChannels.find { channel -> channel.members.contains(event.member) }
+        val channel = event.guild.voiceChannels.firstOrNull { (event.guild.getVoiceChannelById(it.idLong) ?: return).members.contains(event.member) }
         val arg = event.args.replaceFirstChar { it.toString() }
 
         if (channel == null) {
@@ -24,7 +24,7 @@ object VCNameChange: Command() {
             return
         }
 
-        if (TempDatas.vc[channel.idLong] == null) TempDatas.vc[channel.idLong] = channel.name
+        if (channel.idLong !in TempDatas.vc) TempDatas.vc[channel.idLong] = channel.name
         channel.manager.setName(arg).queue()
         event.reply("チャンネル名を変更しました")
     }

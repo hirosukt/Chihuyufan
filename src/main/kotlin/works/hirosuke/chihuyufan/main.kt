@@ -8,11 +8,12 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.requests.GatewayIntent
+import net.dv8tion.jda.api.utils.ChunkingFilter
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import works.hirosuke.chihuyufan.commands.Neko
 import works.hirosuke.chihuyufan.commands.Poll
 import works.hirosuke.chihuyufan.commands.VCNameChange
-import works.hirosuke.chihuyufan.listener.Logger
 import works.hirosuke.chihuyufan.listener.VCNameReset
 
 class Bot : ListenerAdapter() {
@@ -31,24 +32,19 @@ class Bot : ListenerAdapter() {
 
         listOf(Neko, VCNameChange, Poll).forEach { commandListener.addCommand(it) }
 
-        bot = JDABuilder.createLight(token)
-            .enableCache(mutableListOf(CacheFlag.VOICE_STATE))
+        bot = JDABuilder.createDefault(token)
+            .enableCache(mutableListOf(CacheFlag.VOICE_STATE, CacheFlag.EMOTE, CacheFlag.MEMBER_OVERRIDES))
+            .enableIntents(listOf(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES))
             .setAutoReconnect(true)
             .addEventListeners(commandListener)
-            .addEventListeners(Logger, VCNameReset)
+            .addEventListeners(VCNameReset)
             .addEventListeners(this)
             .build()
+            .awaitReady()
     }
 
     override fun onReady(event: ReadyEvent) {
         println("Bot has started.")
-    }
-
-    override fun onGuildVoiceLeave(event: GuildVoiceLeaveEvent) {
-
-        if (event.channelLeft.members.isNotEmpty()) return
-
-        event.channelLeft.manager.setName(TempDatas.vc[event.channelLeft.idLong] ?: "null").queue()
     }
 }
 
