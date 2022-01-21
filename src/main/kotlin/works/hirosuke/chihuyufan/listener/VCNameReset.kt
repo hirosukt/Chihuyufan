@@ -7,10 +7,6 @@ import works.hirosuke.chihuyufan.TempDatas
 
 object VCNameReset: ListenerAdapter() {
 
-//    override fun onGuildVoiceUpdate(event: GuildVoiceUpdateEvent) {
-//        super.onGuildVoiceUpdate(event)
-//    }
-
     override fun onGuildVoiceLeave(event: GuildVoiceLeaveEvent) {
         val channel = event.guild.getGuildChannelById(ChannelType.VOICE, event.channelLeft.idLong) ?: return
         val name = TempDatas.vc[channel.idLong] ?: "VC"

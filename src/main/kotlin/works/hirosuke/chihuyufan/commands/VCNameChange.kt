@@ -2,6 +2,7 @@ package works.hirosuke.chihuyufan.commands
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
+import net.dv8tion.jda.api.entities.ChannelType
 import works.hirosuke.chihuyufan.TempDatas
 
 object VCNameChange: Command() {
@@ -11,7 +12,7 @@ object VCNameChange: Command() {
     }
 
     override fun execute(event: CommandEvent) {
-        val channel = event.guild.voiceChannels.firstOrNull { (event.guild.getVoiceChannelById(it.idLong) ?: return).members.contains(event.member) }
+        val channel = event.guild.voiceChannels.firstOrNull { (event.guild.getGuildChannelById(ChannelType.VOICE, it.idLong) ?: return).members.contains(event.member) }
         val arg = event.args.replaceFirstChar { it.toString() }
 
         if (channel == null) {
