@@ -5,16 +5,10 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
-import net.dv8tion.jda.api.entities.Emote
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.dv8tion.jda.api.managers.EmoteManager
 import net.dv8tion.jda.api.utils.cache.CacheFlag
-import net.dv8tion.jda.internal.entities.EmoteImpl
-import net.dv8tion.jda.internal.requests.Route
 import works.hirosuke.chihuyufan.commands.Neko
 import works.hirosuke.chihuyufan.commands.Poll
 import works.hirosuke.chihuyufan.commands.VCNameChange

@@ -27,5 +27,5 @@ tasks.getByName<Test>("test") {
 }
 
 application {
-    mainClass.set("${group}.${rootProject.name}.MainKt")
+    mainClass.set("works.hirosuke.chihuyufan.MainKt")
 }
