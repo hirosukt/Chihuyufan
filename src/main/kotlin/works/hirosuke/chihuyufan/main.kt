@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag
 import works.hirosuke.chihuyufan.commands.Neko
 import works.hirosuke.chihuyufan.commands.Poll
 import works.hirosuke.chihuyufan.commands.VCNameChange
+import works.hirosuke.chihuyufan.commands.Vote
 import works.hirosuke.chihuyufan.listener.VCNameReset
 
 class Bot : ListenerAdapter() {
@@ -30,7 +31,7 @@ class Bot : ListenerAdapter() {
             .setServerInvite("discord.gg/gWTWVsqZB6")
             .build()
 
-        listOf(Neko, VCNameChange, Poll).forEach { commandListener.addCommand(it) }
+        listOf(Neko, VCNameChange, Poll, Vote).forEach { commandListener.addCommand(it) }
 
         bot = JDABuilder.createDefault(token)
             .enableCache(mutableListOf(CacheFlag.VOICE_STATE, CacheFlag.EMOTE, CacheFlag.MEMBER_OVERRIDES))

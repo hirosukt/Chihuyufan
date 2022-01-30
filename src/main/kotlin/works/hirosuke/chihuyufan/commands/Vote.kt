@@ -3,15 +3,11 @@ package works.hirosuke.chihuyufan.commands
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.internal.JDAImpl
-import net.dv8tion.jda.internal.entities.GuildImpl
-import net.dv8tion.jda.internal.utils.config.AuthorizationConfig
-import works.hirosuke.chihuyufan.Bot
 
 object Vote: Command() {
 
     init {
-        this.name = "voite"
+        this.name = "vote"
     }
 
     override fun execute(event: CommandEvent) {
@@ -55,12 +51,16 @@ object Vote: Command() {
         )
 
 
-        args.drop(0).forEach {
-            embed.addField("${map[args.indexOf(it)]}  $it", "", false)
+        args.minus(args[0]).forEach {
+            embed.addField("${map[args.indexOf(it).dec()]}  $it", "", false)
         }
 
         if (event.message.attachments.isNotEmpty()) embed.setImage(event.message.attachments[0].url)
 
-        event.textChannel.sendMessage(embed.build()).queue()
+        event.textChannel.sendMessage(embed.build()).queue {
+            args.minus(args[0]).forEachIndexed { index, _ ->
+                it.addReaction(map[index] ?: return@forEachIndexed).queue()
+            }
+        }
     }
 }
